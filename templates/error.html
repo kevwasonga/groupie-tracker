@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error {{.Status}}</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f8d7d718; color:  #2b4a79; }
+        .container { max-width: 600px; margin: 50px auto; padding: 20px; border: 1px solid #f5c6cb; border-radius: 5px; }
+        h1 { font-size: 24px; }
+        p { font-size: 18px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Error {{.Status}}</h1>
+        <p>{{.Message}}</p>
+    </div>
+</body>
+</html>
