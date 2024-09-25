@@ -19,7 +19,7 @@ func DatesHandler(w http.ResponseWriter, r *http.Request) {
 	// Fetch artist data
 	artists, err := services.FetchAndUnmarshalArtists()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		HandleError(w, err, http.StatusInternalServerError, "Error fetching artist data")
 		return
 	}
 
@@ -32,7 +32,7 @@ func DatesHandler(w http.ResponseWriter, r *http.Request) {
 	// Fetch dates data
 	datesData, err := services.FetchAndUnmarshalDates()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		HandleError(w, err, http.StatusInternalServerError, "Error fetching dates data")
 		return
 	}
 
@@ -52,7 +52,7 @@ func DatesHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse the HTML template file
 	tmpl, err := template.ParseFiles(filepath.Join("templates", "dates.html"))
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		HandleError(w, err, http.StatusInternalServerError, "Error loading dates template")
 		return
 	}
 
@@ -63,6 +63,6 @@ func DatesHandler(w http.ResponseWriter, r *http.Request) {
 		Index: artistDates,
 	})
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		HandleError(w, err, http.StatusInternalServerError, "Error rendering dates template")
 	}
 }
