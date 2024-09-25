@@ -1,4 +1,4 @@
-package services
+package service
 
 import (
 	"encoding/json"
@@ -9,14 +9,14 @@ import (
 
 // Artist represents the JSON structure for each artist
 type Artist struct {
-	ID           int      `json:"id"`
-	Image        string   `json:"image"`
-	Name         string   `json:"name"`
-	Members      []string `json:"members"`
-	CreationDate int      `json:"creationDate"`
-	FirstAlbum   string   `json:"firstAlbum"`
-	Locations    []string `json:"locations,omitempty"`
-	Relations    map[string][]string `json:"relations,omitempty"`
+	ID           int                 `json:"id"`
+	Image        string              `json:"image"`
+	Name         string              `json:"name"`
+	Members      []string            `json:"members"`
+	CreationDate int                 `json:"creationDate"`
+	FirstAlbum   string              `json:"firstAlbum"`
+	Locations    []string            `json:"-"`
+	Relations    map[string][]string `json:"-"`
 }
 
 // Locations represents the JSON structure for artist locations
@@ -127,4 +127,83 @@ func FetchAndUnmarshalArtists() ([]Artist, error) {
 	}
 
 	return artists, nil
+}
+
+
+// Define a struct to represent each entry in the index
+type Date struct {
+	ID    int      `json:"id"`
+	Dates []string `json:"dates"`
+}
+
+// Define a struct to represent the whole JSON structure
+type DatesData struct {
+	Index []Date `json:"index"`
+}
+
+// unmarshal dates alone
+func FetchAndUnmarshalDates() (*DatesData, error) {
+	url := "https://groupietrackers.herokuapp.com/api/dates"
+	client := &http.Client{
+		Timeout: 10 * time.Second, // Set the timeout duration
+	}
+
+	// Fetch JSON data from the provided URL
+	resp, err := client.Get(url)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching JSON data: %w", err)
+	}
+	defer resp.Body.Close()
+
+	// Check if the request was successful
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("error: received status code %d", resp.StatusCode)
+	}
+
+	// Decode the JSON data
+	var data DatesData
+	err = json.NewDecoder(resp.Body).Decode(&data)
+	if err != nil {
+		return nil, fmt.Errorf("error decoding JSON data: %w", err)
+	}
+
+	return &data, nil
+}
+
+type Index struct {
+	ID        int      `json:"id"`
+	Locations []string `json:"locations"`
+}
+
+type LocationData struct {
+	Index []Index `json:"index"`
+}
+
+func FetchAndUnmarshalLocations() (*LocationData, error) {
+	// Set locations URL
+	url := "https://groupietrackers.herokuapp.com/api/locations"
+	client := &http.Client{
+		Timeout: 10 * time.Second, // Set the timeout duration to 15 seconds
+	}
+
+	// Fetch JSON data from the API
+	resp, err := client.Get(url)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching locations data: %w", err)
+	}
+	defer resp.Body.Close()
+
+	// Check if the request was successful
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("error: received status code %d", resp.StatusCode)
+	}
+
+	// Decode the JSON data
+	var data LocationData
+	err = json.NewDecoder(resp.Body).Decode(&data)
+	if err != nil {
+		return nil, fmt.Errorf("error decoding locations data: %w", err)
+	}
+
+	return &data, nil
 }

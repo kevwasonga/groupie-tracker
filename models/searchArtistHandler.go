@@ -14,7 +14,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("query")
 	artists, err := services.FetchAndUnmarshalArtists()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		HandleError(w, err, http.StatusInternalServerError, "Error fetching artist data")
 		return
 	}
 
@@ -27,12 +27,12 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := template.ParseFiles(filepath.Join("templates", "index.html"))
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		HandleError(w, err, http.StatusInternalServerError, "Error loading template")
 		return
 	}
 
 	err = tmpl.Execute(w, filteredArtists)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		HandleError(w, err, http.StatusInternalServerError, "Error rendering template")
 	}
 }
