@@ -13,17 +13,16 @@ import (
 // ArtistDetailsHandler serves the details of a single artist
 func ArtistDetailsHandler(w http.ResponseWriter, r *http.Request) {
 	// Extract the artist ID from the URL path
-
 	artistIDStr := strings.TrimPrefix(r.URL.Path, "/artist/")
 	artistID, err := strconv.Atoi(artistIDStr)
 	if err != nil {
-		http.Error(w, "Invalid artist ID", http.StatusBadRequest)
+		HandleError(w, err, http.StatusBadRequest, "Invalid artist ID")
 		return
 	}
 
 	artists, err := services.FetchAndUnmarshalArtists()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		HandleError(w, err, http.StatusInternalServerError, "Error fetching artist data")
 		return
 	}
 
@@ -37,18 +36,18 @@ func ArtistDetailsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if artist == nil {
-		http.Error(w, "Artist not found", http.StatusNotFound)
+		HandleError(w, err, http.StatusNotFound, "Artist not found")
 		return
 	}
 
 	tmpl, err := template.ParseFiles(filepath.Join("templates", "artistdetails.html"))
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		HandleError(w, err, http.StatusInternalServerError, "Error loading artist details template")
 		return
 	}
 
 	err = tmpl.Execute(w, artist)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		HandleError(w, err, http.StatusInternalServerError, "Error rendering artist details")
 	}
 }
