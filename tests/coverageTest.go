@@ -129,7 +129,6 @@ func FetchAndUnmarshalArtists() ([]Artist, error) {
 	return artists, nil
 }
 
-
 // Define a struct to represent each entry in the index
 type Date struct {
 	ID    int      `json:"id"`
