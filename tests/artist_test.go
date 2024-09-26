@@ -51,7 +51,7 @@ func TestFetchAndUnmarshalArtists(t *testing.T) {
 	artistsURL := "https://groupietrackers.herokuapp.com/api/artists"
 	locationsURL := "https://groupietrackers.herokuapp.com/api/locations"
 	relationsURL := "https://groupietrackers.herokuapp.com/api/relation"
-	
+
 	originalArtistURL := artistsURL
 	originalLocationsURL := locationsURL
 	originalRelationsURL := relationsURL

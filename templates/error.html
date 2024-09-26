@@ -9,12 +9,37 @@
         .container { max-width: 600px; margin: 50px auto; padding: 20px; border: 1px solid #f5c6cb; border-radius: 5px; }
         h1 { font-size: 24px; }
         p { font-size: 18px; }
+        /* Style link as a button */
+        .button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .button-link:hover {
+            background-color: #555;
+            transform: translateY(-3px); /* Add a slight lift effect on hover */
+        }
+
+        .button-link:active {
+            background-color: #222; /* Darker shade for active state */
+            transform: translateY(0); /* Remove lift on click */
+        }
+
+        
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Error {{.Status}}</h1>
         <p>{{.Message}}</p>
+        <a href="/" class="button-link">Homepage</a>
     </div>
 </body>
 </html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artists</title>
+    
     <style>
         /* Reset some default styling */
         body, h1, h2, ul, li {
@@ -111,6 +112,13 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Hover effect for artist */
+        .artist-link:hover .artist {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         }
 
         .artist img {
@@ -120,6 +128,25 @@
 
         .artist h2 {
             margin: 1rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .artist-link {
+                width: calc(33.33% - 1rem);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .artist-link {
+                width: calc(50% - 1rem);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .artist-link {
+                width: calc(100% - 1rem);
+            }
         }
     </style>
 </head>
